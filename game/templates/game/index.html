@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Prisoner's Dilemma</title>
+        <link rel="stylesheet" href="{% static 'game/styles.css' %}">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{% static 'game/favicon.png' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <form id="csrf-form">
+            {% csrf_token %}
+        </form>
+        <h1 id="heading">Prisoner's Dilemma Simulator</h1>
+
+        <div id="explanation">
+            <p>
+                The <strong>Prisoner's Dilemma</strong> is a classic problem in game theory.
+                Two players must independently choose whether to <b>cooperate (C)</b> or
+                <b>defect (D)</b>.
+            </p>
+
+            <p>
+                If both cooperate, they both do well. If one defects while the other
+                cooperates, the defector gets the highest reward while the cooperator
+                gets the worst outcome. If both defect, they both receive a poor result.
+                In this simulation we are using the following payoff structure:
+            </p>
+
+            <div id="payoff-matrix">
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Opponent Cooperates (C)</th>
+                        <th>Opponent Defects (D)</th>
+                    </tr>
+
+                    <tr>
+                        <th>You Cooperate (C)</th>
+                        <td>(3, 3)</td>
+                        <td>(0, 5)</td>
+                    </tr>
+
+                    <tr>
+                        <th>You Defect (D)</th>
+                        <td>(5, 0)</td>
+                        <td>(1, 1)</td>
+                    </tr>
+                </table>
+                <p class="matrix-note">
+                    Numbers represent <strong>(your score, opponent score)</strong>.
+                    Defection is the dominant strategy in a single round because it yields a better outcome regardless of the opponent's choice.
+                </p>
+            </div>
+
+            <p>
+                If played once there is a clear best decision - defect. This is becasue no 
+                matter what the opponent picks, defecting will result in a better outcome than cooperating.
+                When the game is repeated many times, different strategies can emerge —
+                some cooperative, some exploitative. This simulator lets you explore how
+                those strategies perform against each other in the long run.
+                Problems of this type arise in all sorts of situations from international relations to group projects.
+            </p>
+        </div>
+        
+        <!--Example Round-->
+        <div id="example-round">
+            <h3>Example Round</h3>
+
+            <div class="example-row">
+                <span id="example-p1">C</span>
+                <span class="arrow">vs</span>
+                <span id="example-p2">D</span>
+            </div>
+
+            <div id="example-payoff">
+                Payoff: (0,5)
+            </div>
+
+        </div>
+
+        <!--Single Match-->
+        <div class="section-card" id="simulation-controls">
+            <h2>Head to Head Match</h2>
+
+            <label>Strategy 1:</label>
+            <select id="strategy1"></select>
+            <p class="strategy-description" id="desc1"></p>
+
+            <label>Strategy 2:</label>
+            <select id="strategy2"></select>
+            <p class="strategy-description" id="desc2"></p>
+
+            <label>Number of Rounds:</label>
+            <input type="number" id="sim-rounds" value="100">
+
+            <label>Noise (chance of flipping the move):</label>
+            <input type="number" id="noise" value="0" min="0" max="50">(0-50%)
+            <button type="button" id="run-sim">Run Simulation</button>
+        </div>
+        
+        <!--Tournament-->
+        <div class="section-card" id="tournament-explanation">
+            <h2>Tournament</h2>
+            <p>
+                The tournament allows you to pit <strong>all available strategies</strong> against each other
+                in a round-robin format. Each pair of strategies plays the specified number of rounds, 
+                and scores are accumulated. At the end, a leaderboard shows which strategies perform best overall.
+            </p>
+            <p>
+                This helps you explore which strategies perform best in repeated interactions with other strategies of varied types,
+                whether cooperative, retaliatory, or exploitative.
+            </p>
+
+            <div id="tournament-controls">
+                <label>Rounds per match:</label>
+                <input type="number" id="tournament-rounds" value="100">
+                <label>Noise (0–50%):</label>
+                <input type="number" id="tournament-noise" value="0" min="0" max="50">
+                <p class="noise-note">
+                    A little noise (1 - 5%) simulates mistakes or randomness in real life.
+                </p>            
+                <button type="button" id="run-tournament">Run Tournament</button>
+            </div>
+        </div>
+        
+        <!--Results-->
+        <div class="section-card" id="match-history">
+            <h2>Match History</h2>
+            <ul id="history-list"></ul>
+        </div>
+
+        <div class="section-card" id="results">
+            <h2>Results</h2>
+            <button id="toggle-rounds">Show Round Details</button>
+            <div id="round-details" style="display: none;">
+                <div id="round-results"></div>
+            </div>
+        </div>
+
+        <script src="{% static 'game/simulate.js' %}"></script>
+    </body>
+</html>
