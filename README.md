@@ -1,5 +1,8 @@
 # Prisoner's Dilemma Simulator
 
+## Live Demo
+Check out the running web application [here](https://prisoners-dilemma-simulator.onrender.com)!
+
 ## Overview
 This project is an interactive web application that allows users to explore the **Prisoner's Dilemma** problem from game theory. In the Prisoner's Dilemma, two players must independently choose whether to cooperate or defect. While defection is always the optimal choice in a single round, repeated interactions can lead to the emergence of cooperative strategies. Due to how this replicates many real life scenarios, this is often used as a fun introduction topic for game theory.
 
