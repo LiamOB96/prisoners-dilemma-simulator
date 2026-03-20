@@ -10,6 +10,7 @@ from .models import MatchResult
 def index(request):
     return render(request, "game/index.html")
 
+@csrf_exempt
 def simulate_view(request):
     if request.method == "POST":
         data = json.loads(request.body)
